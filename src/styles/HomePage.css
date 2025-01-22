@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+  }
+  
+  .homepage-container {
+    text-align: center;
+  }
+  
+  .main-content h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-top: 80px;
+    margin-bottom: 40px;
+
+  }
+  
+  .button-group {
+    margin: 20px 0;
+  }
+  
+  .action-button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+  
+  .welcome-image {
+    margin-top: 20px; 
+    max-width: 600px;
+    height: auto;
+    border-radius: 10px;
+  }
+  
