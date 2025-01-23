@@ -22,7 +22,7 @@ body {
   }
   
   .action-button {
-    background-color: #4CAF50;
+    background-color: rgb(25, 94, 25);
     color: #fff;
     border: none;
     padding: 15px 20px;
@@ -31,6 +31,10 @@ body {
     cursor: pointer;
   }
   
+  .action-button:hover {
+    background-color: #4CAF50;
+    border-color: white; 
+  }
   .welcome-image {
     margin-top: 20px; 
     max-width: 600px;
