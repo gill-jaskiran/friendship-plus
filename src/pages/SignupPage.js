@@ -19,7 +19,7 @@ const SignupPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form Data:', formData);
-    alert('Form submitted! (Backend integration pending)');
+    alert('Form submitted!');
   };
 
   return (
