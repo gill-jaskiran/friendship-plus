@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import '../styles/SignupPage.css';
+import axios from 'axios' ////
+import LoginPage from './LoginPage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -20,8 +24,20 @@ const SignupPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    alert('Form submitted!');
+    let data = '';
+    data = axios.post('http://localhost:3000/api/signup',formData)
+    .then(function (response){
+      console.log("Form Data: ", response)
+      alert('Form submitted! Consider Logging-In');
+      window.location.href = "/login";
+    })
+    .catch(function (error){
+      console.log(error)
+    })
+    // ;
+    //alert(JSON.stringify(formData))
+    //console.log('Form Data:', data);
+    
   };
 
   return (
