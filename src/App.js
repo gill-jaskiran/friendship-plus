@@ -7,6 +7,7 @@ import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import CreateProfile from './pages/CreateProfilePage'
 import FrontPage from './pages/FrontPage';
+import SearchPage from './pages/SearchPage';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/createprofile" element={<CreateProfile />} />
         <Route path="/frontpage" element={<FrontPage />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </Router>
   );
