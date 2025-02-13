@@ -3,7 +3,7 @@ import "../styles/HomePage.css";
 import welcomeImage from "../assets/WelcomeImage.jpg"; 
 const HomePage = () => {
   const handleLoginClick = () => {
-    window.location.href = "/signup"; 
+    window.location.href = "/login"; 
   };
 
   const handleSignupClick = () => {

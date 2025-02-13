@@ -1,4 +1,4 @@
-.signup-container {
+.createprofile-container {
     max-width: 500px;
     margin: 50px auto;
     padding: 20px;
@@ -8,21 +8,26 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
   }
-  
-  .signup-title {
+  textarea {
+    width:98%;
+    height:80px;
+    border-radius:5px;
+
+  }
+  .createprofile-title {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
     color: #333;
   }
   
-  .signup-form {
+  .createprofile-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
   }
   
-  .form-group {
+  .createprofile-group {
     text-align: left;
   }
   
@@ -39,9 +44,11 @@
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    width: 95%;
+  
   }
   
-  .signup-button {
+  .createprofile-button {
     padding: 10px 15px;
     font-size: 16px;
     font-weight: bold;
@@ -52,7 +59,7 @@
     cursor: pointer;
   }
   
-  .signup-button:hover {
+  .createprofile-button:hover {
     background-color: rgb(25, 94, 25);
   }
   
