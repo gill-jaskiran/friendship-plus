@@ -4,14 +4,14 @@ import axios from "axios";
 
 const CreateProfilePage = () => {
   const [formData, setFormData] = useState({
-    userId: "",
-    bio: "",
+    userId: '',
+    bio: '',
     profilePicture: null,
-    age: "",
-    location: "",
-    interest: "",
-    courses: "",
-    school: "",
+    age: '',
+    location: '',
+    interest: '',
+    courses: '',
+    school: '',
   });
 
   const handleChange = (e) => {
