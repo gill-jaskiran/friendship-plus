@@ -1,55 +1,67 @@
-import React, { useState } from 'react';
-import '../styles/CreateProfile.css';
-import axios from 'axios'
+import React, { useState } from "react";
+import "../styles/CreateProfile.css";
+import axios from "axios";
 
-const SignupPage = () => {
+const CreateProfilePage = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    email: '',
-    phone: '',
-    firstName: '',
-    lastName: '',
+    userId: "",
+    bio: "",
+    profilePicture: null,
+    age: "",
+    location: "",
+    interest: "",
+    courses: "",
+    school: "",
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value, type } = e.target;
+
+    if (type === "file") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: e.target.files[0],
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let data = '';
-    data = axios.post('http://localhost:3000/api/signup',formData)
-    .then(function (response){
-      console.log("Form Data: ", response)
-    })
-    .catch(function (error){
-      console.log(error)
-    })
-    // ;
-    alert(JSON.stringify(formData))
-    //console.log('Form Data:', data);
-    
-    //alert('Form submitted!');
+
+    try {
+      const response = await axios.post("http://localhost:3000/api/create-profile", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      console.log("Profile Created: ", response.data);
+      alert("Profile Created Successfully! Redirecting to home...");
+      window.location.href = "/home";
+    } catch (error) {
+      console.error("Error submitting profile:", error);
+      alert("Error submitting profile. Check console for details.");
+    }
   };
 
   return (
     <div className="createprofile-container">
-      <h1 className="createprofile-title">Create Profile</h1>
-      <p className="createprofile-subtitle">Fill in your info:</p>
+      <h1 className="createprofile-title">Complete Your Profile</h1>
+      <p className="createprofile-subtitle">Fill in your details to complete your profile:</p>
+      
       <form onSubmit={handleSubmit} className="createprofile-form">
+        
         <div className="createprofile-group">
-          <label htmlFor="userId">User id</label>
+          <label htmlFor="userId">User ID</label>
           <input
-            type="id"
-            id="id"
-            name="id"
+            type="text"
+            id="userId"
+            name="userId"
             value={formData.userId}
             onChange={handleChange}
-            placeholder="Enter your id"
+            placeholder="Enter your user ID"
             required
           />
         </div>
@@ -58,24 +70,23 @@ const SignupPage = () => {
           <label htmlFor="bio">Bio</label>
           <textarea
             className="createprofile-bio"
-            type="text"
             id="bio"
             name="bio"
             value={formData.bio}
             onChange={handleChange}
-            placeholder="Enter your bio"
+            placeholder="Tell us about yourself"
             required
           />
         </div>
+
         <div className="createprofile-group">
-          <label htmlFor="profilePicture">Profile picture</label>
+          <label htmlFor="profilePicture">Profile Picture</label>
           <input
             type="file"
             id="profilePicture"
             name="profilePicture"
-            value={formData.profilePicture}
             onChange={handleChange}
-            accept="image/png, image/jpg"
+            accept="image/png, image/jpg, image/jpeg"
             required
           />
         </div>
@@ -83,7 +94,7 @@ const SignupPage = () => {
         <div className="createprofile-group">
           <label htmlFor="age">Age</label>
           <input
-            type="age"
+            type="number"
             id="age"
             name="age"
             value={formData.age}
@@ -92,31 +103,34 @@ const SignupPage = () => {
             required
           />
         </div>
+
         <div className="createprofile-group">
-          <label htmlFor="Location">Location</label>
+          <label htmlFor="location">Location</label>
           <input
-            type="location"
+            type="text"
             id="location"
             name="location"
             value={formData.location}
             onChange={handleChange}
-            placeholder="Enter your Address"
+            placeholder="Enter your location"
             required
           />
         </div>
+
         <div className="createprofile-row">
           <div className="createprofile-group">
             <label htmlFor="interest">Interest</label>
             <input
               type="text"
-              id="location"
-              name="location"
-              value={formData.location}
+              id="interest"
+              name="interest"
+              value={formData.interest}
               onChange={handleChange}
-              placeholder="Enter your location"
+              placeholder="Enter your interests"
               required
             />
           </div>
+
           <div className="createprofile-group">
             <label htmlFor="courses">Course</label>
             <input
@@ -125,12 +139,13 @@ const SignupPage = () => {
               name="courses"
               value={formData.courses}
               onChange={handleChange}
-              placeholder="Enter your course here"
+              placeholder="Enter your course"
               required
             />
           </div>
+
           <div className="createprofile-group">
-            <label htmlFor="school">Last Name</label>
+            <label htmlFor="school">School</label>
             <input
               type="text"
               id="school"
@@ -142,13 +157,13 @@ const SignupPage = () => {
             />
           </div>
         </div>
+
         <button type="submit" className="createprofile-button">
-          Create Profile
+          Complete Profile
         </button>
       </form>
-      
     </div>
   );
 };
 
-export default SignupPage;
+export default CreateProfilePage;
