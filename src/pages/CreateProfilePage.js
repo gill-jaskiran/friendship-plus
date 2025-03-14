@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/CreateProfile.css";
-import axios from "axios";
+import { toast, Toaster } from "react-hot-toast";
+import { api } from "../components/api";
 
 const CreateProfilePage = () => {
   const [formData, setFormData] = useState({
-    userId: '',
     bio: '',
     profilePicture: null,
     age: '',
@@ -13,6 +13,20 @@ const CreateProfilePage = () => {
     courses: '',
     school: '',
   });
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState(null);
+
+  // Get userID from localStorage when component mounts
+  useEffect(() => {
+    const userID = localStorage.getItem("userID");
+
+    if (userID) {
+      setUserId(userID);
+    } else {
+      toast.error("User ID not found. You may need to login again.");
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -33,39 +47,84 @@ const CreateProfilePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!userId) {
+      toast.error("User ID not available. Please login again.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    // Create FormData object for multipart/form-data (file upload)
+    const profileData = new FormData();
+
+    // Add all form fields to FormData
+    Object.keys(formData).forEach(key => {
+      if (formData[key] !== null && formData[key] !== undefined && formData[key] !== '') {
+        profileData.append(key, formData[key]);
+      }
+    });
+
+    const toastId = toast.loading("Creating your profile...");
+
     try {
-      const response = await axios.post("http://localhost:3000/api/create-profile", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const response = await api.post(`/profile/${userId}`, profileData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       });
-      console.log("Profile Created: ", response.data);
-      alert("Profile Created Successfully! Redirecting to home...");
-      window.location.href = "/home";
+
+      console.log("Profile Created:", response.data);
+      toast.success("Profile created successfully!", { id: toastId });
+
+      // Redirect after a short delay
+      setTimeout(() => {
+        window.location.href = "/frontpage";
+      }, 1500);
     } catch (error) {
       console.error("Error submitting profile:", error);
-      alert("Error submitting profile. Check console for details.");
+
+      // Extract error message
+      const errorMsg = error.response?.data?.error || "Error creating profile";
+      toast.error(errorMsg, { id: toastId });
+      setIsLoading(false);
     }
   };
 
+  // Preview for profile picture
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  useEffect(() => {
+    // Create a preview URL for the selected image
+    if (formData.profilePicture) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
+      };
+      reader.readAsDataURL(formData.profilePicture);
+    } else {
+      setPreviewUrl(null);
+    }
+  }, [formData.profilePicture]);
+
   return (
     <div className="createprofile-container">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            padding: '16px',
+            borderRadius: '8px',
+            background: '#333',
+            color: '#fff',
+          },
+        }}
+      />
+
       <h1 className="createprofile-title">Complete Your Profile</h1>
       <p className="createprofile-subtitle">Fill in your details to complete your profile:</p>
-      
-      <form onSubmit={handleSubmit} className="createprofile-form">
-        
-        <div className="createprofile-group">
-          <label htmlFor="userId">User ID</label>
-          <input
-            type="text"
-            id="userId"
-            name="userId"
-            value={formData.userId}
-            onChange={handleChange}
-            placeholder="Enter your user ID"
-            required
-          />
-        </div>
 
+      <form onSubmit={handleSubmit} className="createprofile-form">
         <div className="createprofile-group">
           <label htmlFor="bio">Bio</label>
           <textarea
@@ -89,6 +148,15 @@ const CreateProfilePage = () => {
             accept="image/png, image/jpg, image/jpeg"
             required
           />
+          {previewUrl && (
+            <div className="image-preview">
+              <img
+                src={previewUrl}
+                alt="Profile preview"
+                style={{ maxWidth: '100px', maxHeight: '100px', marginTop: '10px', borderRadius: '50%' }}
+              />
+            </div>
+          )}
         </div>
 
         <div className="createprofile-group">
@@ -101,6 +169,8 @@ const CreateProfilePage = () => {
             onChange={handleChange}
             placeholder="Enter your age"
             required
+            min="13"
+            max="120"
           />
         </div>
 
@@ -158,8 +228,12 @@ const CreateProfilePage = () => {
           </div>
         </div>
 
-        <button type="submit" className="createprofile-button">
-          Complete Profile
+        <button
+          type="submit"
+          className="createprofile-button"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Creating Profile...' : 'Complete Profile'}
         </button>
       </form>
     </div>

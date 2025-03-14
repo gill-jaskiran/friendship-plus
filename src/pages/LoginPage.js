@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import '../styles/LoginPage.css';
 import axios from 'axios'
+import { toast, Toaster } from 'react-hot-toast';
+import { authService } from '../components/AuthService.js';
+import { api } from '../components/api';
 
 const LoginPage = () => {
+  // Unsure why we sent email & name to login EP, only needs user:pass -- Ian
   const [formData, setFormData] = useState({
     username: '',
-    firstname: '',
-    email: '',
     password: '',
   });
+
+  const [_, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -17,23 +21,54 @@ const LoginPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let data = '';
-    data = axios.post('http://localhost:3000/api/login',formData)
-    .then((response) =>{
-      console.log(response)
-      if(response.status === 200){
-        alert('Login successful')
-        window.location.href = "/frontpage";
+    setIsLoading(true);
+
+    try {
+      toast.loading('Logging in...', { id: 'loginToast' });
+
+      const response = await api.post('/login', formData);
+
+      if (response.status === 200 && response.data.userID) {
+        // Update logged in status in localStorage
+        authService.setLoggedIn(true, response.data.userID);
+
+        // Update toast to success
+        toast.success('Login successful!', { id: 'loginToast' });
+
+        // Redirect after a short delay
+        setTimeout(() => {
+          window.location.href = "/frontpage";
+        }, 1500);
       }
-    }, (err) => {
-      console.log(err)
-    })
+    } catch (err) {
+      console.error('Login error:', err);
+
+      // Display error message
+      const errorMessage = err.response?.data?.error || 'Login failed. Please try again.';
+      toast.error(errorMessage, { id: 'loginToast' });
+
+      // Reset loading state
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="login-container">
+      {/* Toaster component for displaying notifications */}
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            padding: '16px',
+            borderRadius: '8px',
+            background: '#333',
+            color: '#fff',
+          },
+        }}
+      />
       <h1 className="login-title">Login Page</h1>
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
@@ -71,5 +106,4 @@ const LoginPage = () => {
     </div>
   );
 };
-
 export default LoginPage;
