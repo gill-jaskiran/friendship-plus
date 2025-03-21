@@ -1,13 +1,13 @@
 import React from "react";
 import "../styles/HomePage.css";
-import welcomeImage from "../assets/WelcomeImage.jpg"; 
+import friendImage1 from "../assets/Friend1.jpg"; 
 import axios from 'axios'
 
 
 const HomePage = () => {
-  const handleLoginClick = () => {
-    window.location.href = "/login"; 
-  };
+  // const handleLoginClick = () => {
+  //   window.location.href = "/login"; 
+  // };
 
   const handleSignOutClick = () => {
     axios.post('http://localhost:3000/logout')
@@ -21,9 +21,7 @@ const HomePage = () => {
   const handleSearchClick = () => {
     window.location.href = "/search"; 
   };
-
-  // Create Profile, View Profile, Search Friends, Search Events,
-  // Create Profile page, View Profile page, Search Friend list page, Events page  
+ 
   return (
     <div className="homepage-container">
       <main className="main-content">
@@ -34,7 +32,7 @@ const HomePage = () => {
           <button className="action-button" onClick={handleSignOutClick}>Sign Out</button>
         </div>
         <div>
-          <img src={welcomeImage} alt="Welcome" className="welcome-image" />
+          <img src={friendImage1} alt="Friend1" className="friend1-image" />
         </div>
       </main>
     </div>
