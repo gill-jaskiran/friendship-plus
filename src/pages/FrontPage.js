@@ -25,7 +25,7 @@ const HomePage = () => {
   return (
     <div className="homepage-container">
       <main className="main-content">
-        <h1>Friendship Plus</h1>
+        <h1>Welcome!</h1>
         <div className="button-group">
           <button className="action-button" onClick={handleSearchClick}>Search</button>
           <button className="action-button" onClick={handleProfileCreateClick}>Create Profile</button>
