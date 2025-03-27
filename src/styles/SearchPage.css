@@ -60,8 +60,13 @@
     font-size: 16px;
   }
   
-  .search-results li:first-child {
+  .search-results li {
     font-weight: bold;
-    color: red; 
+    background-color: rgb(209, 225, 209);
+    margin-bottom: 20px;
   }
   
+  .button-inline {
+    display: inline-block;
+    margin-left: 10px; /* Adjust space between text and button */
+  }

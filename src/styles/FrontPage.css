@@ -1,0 +1,107 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: white;
+  }
+  
+  .homepage-container {
+    text-align: center;
+  }
+  
+  .main-content h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-top: 80px;
+    margin-bottom: 40px;
+  }
+  
+  .button-group {
+    margin: 20px 0;
+  }
+  
+  .action-button {
+    background-color: rgb(25, 94, 25);
+    color: #fff;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+  
+  .action-button:hover {
+    background-color: #4CAF50;
+    border-color: white; 
+  }
+  .welcome-image {
+    margin-top: 20px; 
+    max-width: 600px;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .profile-container {
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+  }
+  
+  .profile-picture {
+    flex-shrink: 0;
+    width: 150px;
+    max-width: 100px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .profile-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .profile-details h2 {
+    margin-bottom: 10px;
+  }
+  
+  .profile-details p {
+    margin: 5px 0;
+    line-height: 1.5;
+  }
+  
+  .profile-details p strong {
+    color: #333;
+  }
+
+  .displayprofileBio {
+    max-width: 480px;
+    word-wrap: break-word;
+    white-space: pre-wrap; 
+    text-align: left;
+  }
+  
+  @media (max-width: 600px) {
+    .profile-container {
+      flex-direction: column;      /* Stack items vertically */
+      align-items: center;
+    }
+  
+    .profile-picture {
+      margin-bottom: 20px;        /* Add spacing below image */
+    }
+  
+    .profile-details {
+      align-items: center;
+      text-align: center;
+    }
+  }
+  

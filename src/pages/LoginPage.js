@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/LoginPage.css';
-import axios from 'axios'
+//import axios from 'axios'
 import { toast, Toaster } from 'react-hot-toast';
 import { authService } from '../components/AuthService.js';
 import { api } from '../components/api';
@@ -11,6 +11,9 @@ const LoginPage = () => {
     username: '',
     password: '',
   });
+
+
+  
 
   const [_, setIsLoading] = useState(false);
 
@@ -32,7 +35,7 @@ const LoginPage = () => {
 
       if (response.status === 200 && response.data.userID) {
         // Update logged in status in localStorage
-        authService.setLoggedIn(true, response.data.userID);
+        authService.setLoggedIn(true, response.data.userID, response.data.username);
 
         // Update toast to success
         toast.success('Login successful!', { id: 'loginToast' });

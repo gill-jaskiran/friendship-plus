@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../styles/CreateProfile.css";
 import { toast, Toaster } from "react-hot-toast";
 import { api } from "../components/api";
+import { authService } from '../components/AuthService.js'; // added by neeta
+
 
 const CreateProfilePage = () => {
   const [formData, setFormData] = useState({
@@ -26,6 +28,10 @@ const CreateProfilePage = () => {
     } else {
       toast.error("User ID not found. You may need to login again.");
     }
+
+    //authService.resetInterestsEntryState()
+    authService.resetInterestsEntryStateForSearch()
+    
   }, []);
 
   const handleChange = (e) => {
@@ -75,6 +81,9 @@ const CreateProfilePage = () => {
 
       console.log("Profile Created:", response.data);
       toast.success("Profile created successfully!", { id: toastId });
+      authService.removeFormData()
+      authService.resetInterestsList()
+      window.location.href = "/frontpage";
 
       // Redirect after a short delay
       setTimeout(() => {
@@ -105,6 +114,100 @@ const CreateProfilePage = () => {
       setPreviewUrl(null);
     }
   }, [formData.profilePicture]);
+  
+  // added by neeta
+  (() => {
+    if(authService.isInInterestsEntryState() == false){
+      authService.removeFormData()
+    }
+  })()
+
+  // added by neeta
+  useEffect(() => {
+        // added by Neeta
+        if(authService.isInInterestsEntryState()){
+          console.log("useEffect-isInInterestsEntryState")
+          const initFormData = authService.retrieveFormData()
+          if(initFormData.bio != ''){
+            console.log("bio info - exists")
+            setFormData(prevState => ({
+              ...prevState, ["bio"]:initFormData.bio
+          }))
+          console.log(initFormData.bio)
+
+          }
+          if(initFormData.profilePic){
+            setFormData(prevState => ({
+                ...prevState, ["profilePic"]:initFormData.profilePic
+            }))
+          }
+          if(initFormData.age){
+            setFormData(prevState => ({
+                ...prevState, ["age"]:initFormData.age
+            }))
+          }
+          if(initFormData.location){
+            setFormData(prevState => ({
+                ...prevState, ["location"]:initFormData.location
+            }))
+          }
+          if(initFormData.course){
+            setFormData(prevState => ({
+                ...prevState, ["courses"]:initFormData.courses
+            }))
+          }
+          if(initFormData.school){
+            setFormData(prevState => ({
+                ...prevState, ["school"]:initFormData.school
+            }))
+          }
+          let retLst = authService.retrieveInterestsList();
+          if(retLst){
+            console.log("retLst:",retLst)
+            setFormData(prevState => ({
+              ...prevState, ["interest"]:retLst.interestList
+          }))
+          }
+
+          //authService.resetInterestsEntryState()
+      }
+  },[])
+
+  // added by neeta
+  const handleSelectInterest = () => {
+    authService.storeFormData(formData.bio,formData.profilePicture,formData.age,formData.location,formData.course,formData.school)
+
+    console.log('handle select intersted pressed')
+    console.log("bio:",formData.bio)
+    console.log("age:",formData.age)
+    console.log("location:",formData.location)
+    console.log(authService.retrieveFormData())
+    authService.setInterestsEntryState()
+    authService.resetInterestsEntryStateForSearch()
+    window.location.href = "/chooseinterests";
+  }
+
+  const backToProfile = () =>{
+    authService.removeFormData()
+    authService.resetInterestsList()
+    authService.resetInterestsEntryState()
+    window.location.href = "/frontpage";
+  }
+
+  const handleClear = () => {
+    authService.storeFormData("","","","","")
+    authService.resetInterestsList()
+    authService.resetInterestsEntryState()
+    setFormData({
+      bio: '',
+      profilePicture: null,
+      age: '',
+      location: '',
+      interest: '',
+      courses: '',
+      school: '',
+    })
+  };
 
   return (
     <div className="createprofile-container">
@@ -133,10 +236,32 @@ const CreateProfilePage = () => {
             name="bio"
             value={formData.bio}
             onChange={handleChange}
-            placeholder="Tell us about yourself"
+            placeholder={formData.bio !== '' ?formData.bio:"Tell us about yourself"}
             required
           />
         </div>
+
+                  {/* Interst input - moved down and changed - neeta */}
+                  <div className="createprofile-group">
+          <label htmlFor="interest">Interest</label> 
+            <div style={{display:"flex",flexDirection:"row",justifyContent:"center"}}>
+            <input
+              type="text"
+              id="interest"
+              name="interest"
+              value={formData.interest}
+              onChange={handleChange}
+              placeholder={formData.interest?formData.interest:"Press button to select your interests"}
+              required
+              readOnly
+            />
+            <input type="button" value="Select Interests" style={{width:115}}
+              onClick={handleSelectInterest}
+            ></input> {/* input element - added by neeta*/ }
+
+            </div>
+          </div>
+
 
         <div className="createprofile-group">
           <label htmlFor="profilePicture">Profile Picture</label>
@@ -167,7 +292,7 @@ const CreateProfilePage = () => {
             name="age"
             value={formData.age}
             onChange={handleChange}
-            placeholder="Enter your age"
+            placeholder={formData.age?formData.age:"Enter your age"}
             required
             min="13"
             max="120"
@@ -182,25 +307,12 @@ const CreateProfilePage = () => {
             name="location"
             value={formData.location}
             onChange={handleChange}
-            placeholder="Enter your location"
+            placeholder={formData.location?formData.location:"Enter your location"}
             required
           />
         </div>
 
         <div className="createprofile-row">
-          <div className="createprofile-group">
-            <label htmlFor="interest">Interest</label>
-            <input
-              type="text"
-              id="interest"
-              name="interest"
-              value={formData.interest}
-              onChange={handleChange}
-              placeholder="Enter your interests"
-              required
-            />
-          </div>
-
           <div className="createprofile-group">
             <label htmlFor="courses">Course</label>
             <input
@@ -209,7 +321,7 @@ const CreateProfilePage = () => {
               name="courses"
               value={formData.courses}
               onChange={handleChange}
-              placeholder="Enter your course"
+              placeholder={formData.courses?formData.courses:"Enter your course"}
               required
             />
           </div>
@@ -222,11 +334,12 @@ const CreateProfilePage = () => {
               name="school"
               value={formData.school}
               onChange={handleChange}
-              placeholder="Enter your school"
+              placeholder={formData.school?formData.school:"Enter your school"}
               required
             />
           </div>
         </div>
+
 
         <button
           type="submit"
@@ -235,6 +348,9 @@ const CreateProfilePage = () => {
         >
           {isLoading ? 'Creating Profile...' : 'Complete Profile'}
         </button>
+        <button type="button" className="createprofile-button" onClick={handleClear}>Clear Form</button>
+        <button type="button" className="createprofile-button" onClick={backToProfile}>Back To Profile</button>
+
       </form>
     </div>
   );
