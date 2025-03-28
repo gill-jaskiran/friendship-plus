@@ -35,11 +35,11 @@ The application will start and be accessible at **http://localhost:3000**.
 ![alt text](images/CreateProfileView.png "Title")
 
 ## Select Interests View
-![alt text](images/SelectInterestsView.png "Title")
+![alt text](images/ChooseInterestView.png "Title")
 
 
 ## Profile View
-![alt text](images/ProfileView.png "Title")
+![alt text](images/Profileview.png "Title")
 
 
 ## Search Likeminded Friends View
