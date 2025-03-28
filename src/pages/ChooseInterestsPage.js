@@ -20,12 +20,14 @@ const ChooseInterestsPage = () => {
       "International", "Psychology", "Debate", "Drama", "Gaming", "Robotics",
       "Coding", "Health", "Writing", "Reading", "Photography", "Painting",
       "Fitness", "Yoga", "Volunteer", "CommunityService", "Sports", "Music",
-      "Dance", "Entrepreneurship", "HangingOut", "Socializing", "Concerts","Festivals",
+      "Dance", "Entrepreneurship", "Hanging Out", "Socializing", "Concerts","Festivals",
       "Performances", "Traveling", "Exploration", "CareerDevelopment", "PersonalFitness", "MentalHealth",
       "Cooking", "TVshows", "Movies", "Podcasts", "OnlineLearning", "Blogging", 
       "Vlogging", "Internships", "JobOpportunities", "CareerFairs", "Events", "Conferences",
       "ProfessionalOrganizations", "ResumeBuilding", "InterviewPreparation", "BudgetingAndMoneyManagement", "Scholarships", "FinancialAid",
-      "Gym", "Running", "Meditation", "Nutrition", "HealthyEating", "StressManagement", "Videography", "Editing", "Poetry"
+      "Gym", "Running", "Meditation", "Nutrition", "HealthyEating", "StressManagement", "Videography", "Editing", "Poetry", 
+      "AI", "MachineLearning", "Blockchain", "Cybersecurity", "WebDevelopment", "MobileDevelopment", "GameDevelopment", 
+      "DataScience"
     ];  
     setInterests(interests)
     

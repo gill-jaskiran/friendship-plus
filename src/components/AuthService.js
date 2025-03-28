@@ -2,10 +2,7 @@
 export const authService = {
     // Get token from cookie 
     getToken: () => {
-        return document.cookie
-            .split('; ')
-            .find(row => row.startsWith('token='))
-            ?.split('=')[1];
+        return localStorage.getItem('auth_token');
     },
 
     // Store auth status in localStorage

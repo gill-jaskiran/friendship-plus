@@ -200,7 +200,7 @@ const SearchPage = () => {
   };
 
   const handleSignOutClick = () => {
-    axios.post('http://localhost:3000/logout')
+    axios.post('https://capstone-friendship-plus-ce79680bc1a8.herokuapp.com/api/logout')
     window.location.href = "/"; 
   };
 

@@ -12,9 +12,6 @@ const LoginPage = () => {
     password: '',
   });
 
-
-  
-
   const [_, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -34,8 +31,15 @@ const LoginPage = () => {
       const response = await api.post('/login', formData);
 
       if (response.status === 200 && response.data.userID) {
+        const setCookie = (token) => {
+          document.cookie = `token=${token}; path=/; secure; max-age=86400`;
+        }
+
+        // When you get the token after login
+        setCookie(response.data.token);
         // Update logged in status in localStorage
         authService.setLoggedIn(true, response.data.userID, response.data.username);
+        localStorage.setItem('auth_token', response.data.token);
 
         // Update toast to success
         toast.success('Login successful!', { id: 'loginToast' });

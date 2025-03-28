@@ -25,7 +25,7 @@ const SignupPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let data = '';
-    data = axios.post('http://localhost:3001/api/signup',formData)
+    data = axios.post('https://capstone-friendship-plus-ce79680bc1a8.herokuapp.com/api/signup',formData)
     .then(function (response){
       console.log("Form Data: ", response)
       alert('Form submitted! Consider Logging-In');

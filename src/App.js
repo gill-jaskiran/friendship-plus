@@ -7,7 +7,7 @@ import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import CreateProfile from './pages/CreateProfilePage'
 import FrontPage from './pages/FrontPage';
-import SearchPage from './pages/SearchPage';
+import SearchPage2 from './pages/SearchPage2';
 import ChooseInterestsPage from './pages/ChooseInterestsPage'; // added by neeta
 
 const App = () => {
@@ -21,7 +21,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/createprofile" element={<CreateProfile />} />
         <Route path="/frontpage" element={<FrontPage />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/search" element={<SearchPage2 />} />
         <Route path="/chooseinterests" element={<ChooseInterestsPage />} /> 
       </Routes>
     </Router>
